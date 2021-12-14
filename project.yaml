@@ -14,7 +14,7 @@ dataSources:
     kind: substrate/Runtime
     filter:
       specName: kusama
-    startBlock: 10396975
+    startBlock: 10397236 # 10396975
     mapping:
       handlers:
         - handler: handleBlock
@@ -39,31 +39,6 @@ dataSources:
           filter:
             module: staking
             method: PayoutStarted
-        - handler: handleStakingRewarded
-          kind: substrate/EventHandler
-          filter:
-            module: staking
-            method: Rewarded
-        - handler: handleStakingSlashed
-          kind: substrate/EventHandler
-          filter:
-            module: staking
-            method: Slashed
-        - handler: handleBond
-          kind: substrate/EventHandler
-          filter:
-            module: staking
-            method: Bonded
-        - handler: handleRewarded
-          kind: substrate/EventHandler
-          filter:
-            module: staking
-            method: Rewarded
-        - handler: handleSlashed
-          kind: substrate/EventHandler
-          filter:
-            module: staking
-            method: Slashed
   - name: runtime
     kind: substrate/Runtime
     filter:
@@ -93,28 +68,3 @@ dataSources:
           filter:
             module: staking
             method: PayoutStarted
-        - handler: handleStakingRewarded
-          kind: substrate/EventHandler
-          filter:
-            module: staking
-            method: Rewarded
-        - handler: handleStakingSlashed
-          kind: substrate/EventHandler
-          filter:
-            module: staking
-            method: Slashed
-        - handler: handleBond
-          kind: substrate/EventHandler
-          filter:
-            module: staking
-            method: Bonded
-        - handler: handleRewarded
-          kind: substrate/EventHandler
-          filter:
-            module: staking
-            method: Rewarded
-        - handler: handleSlashed
-          kind: substrate/EventHandler
-          filter:
-            module: staking
-            method: Slashed
