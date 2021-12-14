@@ -1,0 +1,109 @@
+# TODO: refactor to EraStaking
+type Staking @entity {
+  id: ID! # Era
+  blockNum: Int! @index
+  timestamp: Date! @index
+  totalIssuance: BigInt!
+  auctionCounter: Int
+
+  startSessionIdx: Int
+  stakingAmount: BigInt
+  stakingEraPayout: BigInt
+  stakingEraRewardPoints: Int # Rewards !
+  stakingValidatorCount: Int # The ideal number of staking participants.
+  counterForNominators: Int # active & waiting
+  counterForValidators: Int
+
+  validators: [Validators] @derivedFrom(field: "stakingEra")
+}
+
+type Validators @entity {
+  id: ID! # era-stashId
+  sessionIdx: Int! @index
+  stakingEra: Staking
+  era: String! @index
+  stashAddress: String! @index
+  totalStake: BigInt
+  ownStake: BigInt
+  nominatorCount: Int
+  nominators: [Nominators] @derivedFrom(field: "nominateTo")
+  commission: BigInt
+  blocked: Boolean
+  slashInEra: Boolean @index
+  identityDisplayName: String
+  eraRewardsPoints: Int @index
+  eraProducedBlockCount: Int
+  latestPayoutBlock: Int @index
+  latestPayoutFor: String @index
+  latestPayoutTimestamp: Date
+}
+
+type Identity @entity {
+  id: ID! # account
+  deposit: BigInt
+  display: String
+  web: String
+  riot: String
+  email: String
+}
+
+type Nominators @entity {
+  id: ID! # era-stashId
+  stashAddress: String! @index
+  totalStake: BigInt
+  nominateTo: Validators!
+}
+
+type RewardAndSlashSum @entity {
+  id: ID! # AccountId
+  accountReward: BigInt! @index
+  accountSlash: BigInt! @index
+  accountTotal: BigInt!
+  rewards: [StakingReward] @derivedFrom(field: "account")
+  slashs: [StakingSlash] @derivedFrom(field: "account")
+}
+
+# in early stage of kusama, some validators didn't need to bond to start staking
+type NoBondRecordAccount @entity {
+  id: ID! # AccountId
+  firstRewardAt: Int!
+}
+
+type StakingReward @entity {
+  id: ID! #blockHeight-eventIdx
+  account: RewardAndSlashSum! #stash
+  balance: BigInt!
+  date: Date!
+  block: Int!
+}
+
+type StakingSlash @entity {
+  id: ID! #blockHeight-eventIdx
+  account: RewardAndSlashSum! #validator
+  balance: BigInt!
+  date: Date!
+  block: Int!
+}
+
+type StakingChronicle @entity {
+  id: ID! # Static 'StakingChronicleKey' Per Era
+  blockNum: Int
+  timestamp: Date
+  historyDepth: Int
+  maxNominatorsCount: Int
+  maxValidatorsCount: Int
+  minNominatorBond: BigInt
+  minValidatorBond: BigInt
+  minimumValidatorCount: Int
+  slashRewardFraction: BigInt
+  earliestUnappliedSlash: Int
+}
+
+type Chronicle @entity {
+  id: ID! # Static 'ChronicleKey'
+  curBlockNum: Int
+  curEra: Int
+  curTotalIssuance: BigInt
+  curAuctionCounter: Int
+  curSessionIndex: Int
+}

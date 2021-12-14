@@ -1,0 +1,35 @@
+{
+  "name": "kusama-staking-memo",
+  "version": "0.1.0",
+  "description": "The project goal is to allow users to query the history of staking amount per Era in Kusama.",
+  "main": "dist/index.js",
+  "homepage": "",
+  "repository": "https://github.com/subvis-io/subquery-staking-memo",
+  "scripts": {
+    "build": "tsc -b",
+    "prepack": "rm -rf dist && npm build",
+    "start:docker": "docker-compose pull && docker-compose up --remove-orphans",
+    "codegen": "./node_modules/.bin/subql codegen"
+  },
+  "files": [
+    "dist",
+    "schema.graphql",
+    "project.yaml"
+  ],
+  "author": "Cherry",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@polkadot/api": "^4.15.1",
+    "@subql/cli": "0.10.0",
+    "@subql/types": "0.8.0",
+    "typescript": "^4.1.3"
+  },
+  "resolutions": {
+    "@polkadot/api": "4.17.1",
+    "@subql/node": "^0.20.3"
+  },
+  "dependencies": {
+    "@subql/node": "^0.20.3",
+    "lodash": "^4.17.21"
+  }
+}

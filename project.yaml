@@ -1,0 +1,120 @@
+specVersion: '0.0.1'
+description: 'The project goal is to allow users to query the history of staking amount in Kusama/Polkadot.'
+repository: ''
+
+schema: './schema.graphql'
+
+network:
+  # endpoint: 'wss://polkadot.api.onfinality.io/public-ws'
+  endpoint: wss://kusama.api.onfinality.io/public-ws
+  # dictionary: https://api.subquery.network/sq/subquery/dictionary-kusama
+
+dataSources:
+  - name: runtime
+    kind: substrate/Runtime
+    filter:
+      specName: kusama
+    startBlock: 10396975
+    mapping:
+      handlers:
+        - handler: handleBlock
+          kind: substrate/BlockHandler
+        - handler: handleNewSession
+          kind: substrate/EventHandler
+          filter:
+            module: session
+            method: NewSession
+        - handler: handleValidators
+          kind: substrate/EventHandler
+          filter:
+            module: session
+            method: NewSession
+        - handler: handleEraPaid
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: EraPaid
+        - handler: handleValidatorPayout
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: PayoutStarted
+        - handler: handleStakingRewarded
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Rewarded
+        - handler: handleStakingSlashed
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Slashed
+        - handler: handleBond
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Bonded
+        - handler: handleRewarded
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Rewarded
+        - handler: handleSlashed
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Slashed
+  - name: runtime
+    kind: substrate/Runtime
+    filter:
+      specName: polkadot
+    startBlock: 8009772
+    mapping:
+      handlers:
+        - handler: handleBlock
+          kind: substrate/BlockHandler
+        - handler: handleNewSession
+          kind: substrate/EventHandler
+          filter:
+            module: session
+            method: NewSession
+        - handler: handleValidators
+          kind: substrate/EventHandler
+          filter:
+            module: session
+            method: NewSession
+        - handler: handleEraPaid
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: EraPaid
+        - handler: handleValidatorPayout
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: PayoutStarted
+        - handler: handleStakingRewarded
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Rewarded
+        - handler: handleStakingSlashed
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Slashed
+        - handler: handleBond
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Bonded
+        - handler: handleRewarded
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Rewarded
+        - handler: handleSlashed
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Slashed
