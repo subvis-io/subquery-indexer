@@ -42,7 +42,7 @@ export async function handleBlock(block: SubstrateBlock): Promise<void> {
       curBlockNum: blockNum,
       curTotalIssuance: curTotalIssuance as unknown as bigint,
       curAuctionCounter,
-      curSessionIdx,
+      curSessionIndex: curSessionIdx.toNumber(),
     });
     logger.info(`*** Chronicle Updated ***`);
 
